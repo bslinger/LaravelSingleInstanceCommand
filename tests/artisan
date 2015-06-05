@@ -36,7 +36,7 @@ $app->setUp();
 
 $kernel = $app->getApp()->make('Illuminate\Contracts\Console\Kernel');
 
-$app->getApp()->register('LaravelSingleInstanceCommand\LaravelSingleInstanceCommandProvider');
+$app->getApp()->register('LaravelSingleInstanceCommand\ServiceProvider');
 
 $logger = app('log');
 $logger->getMonolog()->pushHandler(new Monolog\Handler\ErrorLogHandler());
