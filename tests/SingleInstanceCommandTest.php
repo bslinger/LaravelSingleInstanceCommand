@@ -21,10 +21,10 @@ class LaravelSingleInstanceCommandTest extends \PHPUnit_Framework_TestCase
 
         $cmd = 'pids:test-single-instance';
 
-        $pid1 = LaravelSingleInstanceCommand::getPidFile($cmd, 1);
+        $pid1 = Command::getPidFile($cmd, 1);
         $this->assertTrue(! file_exists($pid1));
 
-        $pid2 = LaravelSingleInstanceCommand::getPidFile($cmd, 2);
+        $pid2 = Command::getPidFile($cmd, 2);
         $this->assertTrue(! file_exists($pid2));
 
         $p1 = new Process('php tests/artisan ' . $cmd . ' p=1 sleep=3');

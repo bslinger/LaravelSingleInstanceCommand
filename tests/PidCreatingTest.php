@@ -20,7 +20,7 @@ class PidCreatingTest extends \PHPUnit_Framework_TestCase
         putenv('APP_ENV=testing');
 
         $cmd = 'pids:test-single-instance';
-        $pid = LaravelSingleInstanceCommand::getPidFile($cmd);
+        $pid = Command::getPidFile($cmd);
 
         $this->assertTrue(! file_exists($pid));
         $p = new Process('php tests/artisan ' . $cmd . ' sleep=2');

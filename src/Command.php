@@ -2,11 +2,9 @@
 
 namespace LaravelSingleInstanceCommand;
 
-use Illuminate\Console\Command;
-
 declare(ticks=1);
 
-class LaravelSingleInstanceCommand extends Command
+class Command extends \Illuminate\Console\Command
 {
     public function __construct()
     {

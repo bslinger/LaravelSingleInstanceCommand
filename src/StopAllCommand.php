@@ -2,9 +2,7 @@
 
 namespace LaravelSingleInstanceCommand;
 
-use Illuminate\Console\Command;
-
-class StopAllCommand extends Command
+class StopAllCommand extends \Illuminate\Console\Command
 {
     protected $name = 'pids:stop-all';
     protected $description = 'Stop all scripts by pid-files found in pid-directory';
@@ -16,7 +14,7 @@ class StopAllCommand extends Command
 
     public function fire()
     {
-        $dir = LaravelSingleInstanceCommand::getPidDir();
+        $dir = Command::getPidDir();
         $pids = glob($dir . '*.pid');
 
         sort($pids);

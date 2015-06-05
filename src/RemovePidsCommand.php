@@ -2,9 +2,7 @@
 
 namespace LaravelSingleInstanceCommand;
 
-use Illuminate\Console\Command;
-
-class RemovePidsCommand extends Command
+class RemovePidsCommand extends \Illuminate\Console\Command
 {
     protected $name = 'pids:remove';
     protected $description = 'Remove stolen pid-files from pid-directory';
@@ -16,7 +14,7 @@ class RemovePidsCommand extends Command
 
     public function fire()
     {
-        $dir = LaravelSingleInstanceCommand::getPidDir();
+        $dir = Command::getPidDir();
         $pids = glob($dir . '*.pid');
 
         sort($pids);

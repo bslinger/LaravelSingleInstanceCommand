@@ -5,7 +5,7 @@ namespace LaravelSingleInstanceCommand;
 use \Symfony\Component\Console\Input\InputInterface;
 use \Symfony\Component\Console\Output\OutputInterface;
 
-class TestSingleInstanceCommand extends LaravelSingleInstanceCommand
+class TestSingleInstanceCommand extends Command
 {
     protected $name = 'pids:test-single-instance';
     protected $description = 'Test single instance command';
