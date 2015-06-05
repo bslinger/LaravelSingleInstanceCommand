@@ -5,7 +5,7 @@ organize multiprocessing, support lengthy calculations, prevent more than one pr
 
 ## Installation
 
-    composer require 'denismilovanov/laravel-single-instance-command": "0.1.*@dev'
+    composer require 'denismilovanov/laravel-single-instance-command: 0.1.*@dev'
 
 ## Usage
 
@@ -40,7 +40,7 @@ In shell (or crontab):
 * to stop process `php artisan my-command p=2 stop`,
     
 * to stop all `php artisan pids:stop-all`,
-* to remove stolen pids files `php artisan pids:remove`.
+* to remove stale pids files `php artisan pids:remove`.
 
 ## Notes
 
