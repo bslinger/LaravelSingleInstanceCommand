@@ -1,0 +1,41 @@
+{
+    "name"        : "denismilovanov/laravel-single-instance-command",
+    "description" : "",
+    "keywords"    : ["laravel", "command", "multiprocessing", "pid"],
+    "license"     : "MIT",
+
+    "authors" : [{
+        "name"     : "Denis Milovanov",
+        "email"    : "me@denismilovanov.net",
+        "homepage" : "http://denismilovanov.net",
+        "role"     : "Developer"
+    }],
+
+    "require" : {
+        "php"                 : ">=5.4",
+        "illuminate/support"  : "5.0.*"
+    },
+
+    "require-dev" : {
+        "orchestra/testbench"    : "~3.0",
+        "phpunit/phpunit"        : "~4.5"
+    },
+
+    "autoload" : {
+        "psr-4" : {
+            "LaravelSingleInstanceCommand\\" : "src/"
+        }
+    },
+
+    "autoload-dev" : {
+        "psr-4": {
+            "LaravelSingleInstanceCommand\\" : "tests/"
+        }
+    },
+
+    "extra" : {
+        "branch-alias" : {
+            "dev-master" : "0.1-dev"
+        }
+    }
+}
