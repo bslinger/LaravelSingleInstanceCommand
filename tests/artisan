@@ -1,0 +1,51 @@
+<?php
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Orchestra\Testbench\Traits\ApplicationTrait;
+
+class MyArtisan
+{
+    use ApplicationTrait;
+
+    public function setUp()
+    {
+        $this->refreshApplication();
+    }
+
+    public function tearDown()
+    {
+        if ($this->getApp()) {
+            $this->getApp()->flush();
+        }
+    }
+
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    protected function getEnvironmentSetUp($app)
+    {
+
+    }
+}
+
+$app = new MyArtisan();
+$app->setUp();
+
+$kernel = $app->getApp()->make('Illuminate\Contracts\Console\Kernel');
+
+$app->getApp()->register('LaravelSingleInstanceCommand\LaravelSingleInstanceCommandProvider');
+
+$logger = app('log');
+$logger->getMonolog()->pushHandler(new Monolog\Handler\ErrorLogHandler());
+
+$status = $kernel->handle(
+	$input = new Symfony\Component\Console\Input\ArgvInput,
+	new Symfony\Component\Console\Output\ConsoleOutput
+);
+
+$kernel->terminate($input, $status);
+
+exit($status);
