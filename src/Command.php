@@ -6,6 +6,8 @@ declare(ticks=1);
 
 class Command extends \Illuminate\Console\Command
 {
+    private static $verbose = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -43,6 +45,8 @@ class Command extends \Illuminate\Console\Command
             mkdir($dir, 0775, true);
         }
 
+        self::$verbose = $input->hasParameterOption('v');
+
         if ($input->hasParameterOption('stop')) {
             if (file_exists($pid_file)) {
                 $pid = file_get_contents($pid_file);
@@ -59,12 +63,15 @@ class Command extends \Illuminate\Console\Command
         }
 
         if (file_exists($pid_file)) {
-            $pid = file_get_contents($pid_file);
-            app('log')->info('Process is already running, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
+            if (self::$verbose) {
+                $pid = file_get_contents($pid_file);
+                app('log')->info('Process is already running, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
+            }
             exit(1);
         }
 
-        file_put_contents($pid_file, posix_getpid());
+        $pid = posix_getpid();
+        file_put_contents($pid_file, $pid);
 
         $shutdownSignal15 = function() use ($pid_file) {
             self::shutdown('SIGTERM received.', $pid_file);
@@ -76,5 +83,7 @@ class Command extends \Illuminate\Console\Command
 
         register_shutdown_function($shutdownNormal);
         pcntl_signal(15, $shutdownSignal15);
+
+        app('log')->info('Process has been started, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
     }
 }
