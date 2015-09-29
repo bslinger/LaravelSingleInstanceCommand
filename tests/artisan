@@ -10,7 +10,7 @@ class MyArtisan
 
     public function setUp()
     {
-        $this->refreshApplication();
+        $this->app = $this->createApplication();
     }
 
     public function tearDown()

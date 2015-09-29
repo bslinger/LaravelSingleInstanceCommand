@@ -5,7 +5,7 @@ namespace LaravelSingleInstanceCommand;
 class RemovePidsCommand extends \Illuminate\Console\Command
 {
     protected $name = 'pids:remove';
-    protected $description = 'Remove stolen pid-files from pid-directory';
+    protected $description = 'Remove stale pid-files from pid-directory';
 
     public function __construct()
     {
