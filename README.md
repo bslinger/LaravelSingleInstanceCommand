@@ -1,7 +1,9 @@
-# LaravelSingleInstanceCommand for Laravel 5
+# LaravelSingleInstanceCommand for Laravel 5 (OBSOLETE)
 
 This package allows you to save and control pids of your artisan commands in order to 
 organize multiprocessing, support lengthy calculations, prevent more than one process run simultaneously, etc.
+
+*I use this package only for backward compability.*
 
 ## Installation
 
