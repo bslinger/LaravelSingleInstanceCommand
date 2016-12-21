@@ -45,29 +45,47 @@ class Command extends \Illuminate\Console\Command
             mkdir($dir, 0775, true);
         }
 
-        self::$verbose = $input->hasParameterOption('v');
+        self::$verbose = $input->getOption('verbose');
 
         if ($input->hasParameterOption('stop')) {
             if (file_exists($pid_file)) {
                 $pid = file_get_contents($pid_file);
                 $result = posix_kill($pid, 15);
                 if ($result) {
-                    app('log')->info('Term signal has been sent, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
+                    $this->info('Term signal has been sent, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
                 } else {
-                    app('log')->info('Unable to send term signal.');
+                    $this->info('Unable to send term signal.');
                 }
             } else {
-                app('log')->info('There is no pid file ' . $pid_file);
+                $this->info('There is no pid file ' . $pid_file);
             }
             exit(0);
         }
 
         if (file_exists($pid_file)) {
-            if (self::$verbose) {
-                $pid = file_get_contents($pid_file);
-                app('log')->info('Process is already running, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
+            $pid = file_get_contents($pid_file);
+            $result = exec('ps --pid ' . $pid);
+            $does_not_work = strpos($result, $pid) === false;
+            if ($does_not_work)
+            {
+                // file exists, but PID no longer running
+                if (file_exists($pid_file)) {
+                    unlink($pid_file);
+                }
+                if (self::$verbose)
+                {
+
+                    $this->info('Pid file ' . $pid_file . ' exists but not running, removed.');
+                }
             }
-            exit(1);
+            else
+            {
+                if (self::$verbose)
+                {
+                    $this->info('Process is already running, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
+                }
+                exit(1);
+            }
         }
 
         $pid = posix_getpid();
@@ -84,6 +102,7 @@ class Command extends \Illuminate\Console\Command
         register_shutdown_function($shutdownNormal);
         pcntl_signal(15, $shutdownSignal15);
 
-        app('log')->info('Process has been started, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
+        $this->info('Process has been started, pid file is ' . $pid_file . ', pid is ' . $pid . '.');
     }
 }
+
